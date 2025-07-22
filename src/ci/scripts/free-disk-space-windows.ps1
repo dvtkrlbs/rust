@@ -15,13 +15,18 @@ $dirs = 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\Llvm'
 'C:\Strawberry', 'C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk'
 
 foreach ($dir in $dirs) {
-    Remove-Item -Recurse -Force -ErrorAction Continue $dir &
+    Start-ThreadJob -InputObject $dir {
+        Remove-Item -Recurse -Force -LiteralPath $input
+    } | Out-Null
 }
 
-# Wait for deletion to finish
-Get-Job -State Running | Wait-Job
-# Cleanup finished jobs
-Get-Job | Remove-Job
+foreach ($job in Get-Job) {
+    Wait-Job $job  | Out-Null
+    if ($job.Error) {
+        Write-Output "::warning file=$PSCommandPath::$job.Error"
+    }
+    Remove-Job $job
+}
 
 Get-Volume | Out-String | Write-Output
 
