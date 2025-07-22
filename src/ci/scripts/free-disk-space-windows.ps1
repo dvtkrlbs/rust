@@ -12,7 +12,8 @@ $dirs = 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\Llvm'
 'C:\Program Files\Mozilla Firefox', 'C:\Program Files\MySQL', 'C:\Julia',
 'C:\Program Files\MongoDB', 'C:\Program Files\Azure Cosmos DB Emulator',
 'C:\Program Files\PostgreSQL', 'C:\Program Files\Unity Hub',
-'C:\Strawberry', 'C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk'
+'C:\Strawberry', 'C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk',
+'C:\does not exist'
 
 foreach ($dir in $dirs) {
     Start-ThreadJob -InputObject $dir {
